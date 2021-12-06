@@ -1,0 +1,39 @@
+# FOR RUSTY by CED 10/9/2018
+
+prefix="/mnt/home/cdreyer/apps/abinit-8.8.4"
+enable_optim="safe" 
+
+# Make sure we use Intel compilers
+CC=mpiicc 
+CXX=mpiicpc 
+FC=mpiifort
+
+# MKL linear algebra and FFTW stuff
+with_fft_flavor=fftw3-mkl 
+with_fft_libs="-lmkl_intel_lp64 -lmkl_sequential -lmkl_core" 
+with_linalg_flavor="mkl+scalapack" 
+with_linalg_incs="-I/cm/shared/sw/pkg/vendor/intel-pstudio/2017-4/compilers_and_libraries_2017.4.196/linux/mkl/include"
+with_linalg_libs="-lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_intelmpi_lp64 -lpthread -lm -ldl" 
+
+#MPI flags:
+enable_mpi="yes"
+with_mpi_incs="-I/cm/shared/sw/pkg/vendor/intel-pstudio/2017-4/compilers_and_libraries_2017.4.196/linux/mpi/include64"
+with_mpi_libs="-L/cm/shared/sw/pkg/vendor/intel-pstudio/2017-4/compilers_and_libraries_2017.4.196/linux/mpi/lib64 -lmpi"
+enable_mpi_inplace 
+enable_mpi_io 
+
+# This path is no good, won't configure
+#with_mpi_prefix="/cm/shared/sw/pkg/vendor/intel-pstudio/2017-4/compilers_and_libraries_2017.4.196/linux/mpi/intel64/"
+
+# Not sure about these, from abinit forums. Don't seem to help problems
+enable_zdot_bugfix 
+enable_avx_safe_mode 
+enable_fallbacks
+
+# Need theses to avoid precision ifort errors in make (also from abinit forums)
+FCFLAGS="-O2 -axCORE-AVX2 -xavx -mkl -fp-model precise" 
+FFLAGS="-O2 -axCORE-AVX2 -xavx -mkl -fp-model precise" 
+#CFLAGS="-O2 -axCORE-AVX2 -xavx -mkl -fp-model precise" 
+#CXXFLAGS="-O2 -axCORE-AVX2 -xavx -mkl -fp-model precise"
+
+

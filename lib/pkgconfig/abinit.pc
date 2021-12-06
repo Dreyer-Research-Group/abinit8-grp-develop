@@ -1,0 +1,13 @@
+prefix=/mnt/home/cdreyer/apps/vlfrc_abinit-8.8.4/abinit-8.8.4
+exec_prefix=${prefix}
+bindir=${exec_prefix}/bin
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: Abinit
+Description: Atomic-scale simulation software
+Version: 8.8.4
+URL: https://www.abinit.org/
+Requires: libatlas, netcdf
+Libs: -L${libdir} -lab7_parser
+Cflags: -I${includedir}/abinit
