@@ -332,6 +332,6 @@ doc/topics/ConstrainedDFT.md
 doxygen_docs
 doxygen.err
 
-build/
+./build/
 build_rome/
 bin/
