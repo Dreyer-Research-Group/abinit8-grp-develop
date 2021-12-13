@@ -316,7 +316,7 @@ tests/testbot_summary.shelve
 !.gitkeep
 src/*/*dSYM/
 src/*/*log
-src/*/test_*
+#src/*/test_*
 !tests_*F90
 abichecks/special.py
 abienv.txt
