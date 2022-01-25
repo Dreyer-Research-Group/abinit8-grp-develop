@@ -942,13 +942,23 @@ subroutine dfpt_scfcv(atindx,blkflg,cg,cgq,cg1,cg1_active,cplex,cprj,cprjq,cpus,
    end if
 
 !  SPr: don't remove the following comments for debugging
-!  call calcdensph(gmet,mpi_enreg,dtset%natom,nfftf,ngfftf,nspden,&
-!&   dtset%ntypat,ab_out,dtset%ratsph,rhor1,rprimd,dtset%typat,ucvol,xred,&
-!&   idir+1,cplex)
-!     write(*,*) ' n ( 1,2)',intgden(1,1),' ',intgden(1,2)
-!     write(*,*) ' mx( 1,2)',intgden(2,1),' ',intgden(2,2)
-!     write(*,*) ' my( 1,2)',intgden(3,1),' ',intgden(3,2)
-!     write(*,*) ' mz( 1,2)',intgden(4,1),' ',intgden(4,2)
+! CEDrev: Write this out at every step to check convergence
+if (dtset%useria==3) then
+do iatom= 1,dtset%natom
+  call calcdensph(gmet,mpi_enreg,dtset%natom,nfftf,ngfftf,nspden,&
+&   dtset%ntypat,ab_out,dtset%ratsph,rhor1,rprimd,dtset%typat,ucvol,xred,&
+&   idir+1,cplex,intgden=intgden,dentot=dentot)
+     write(*,*) ' N_DEN_AT',iatom,intgden(1,iatom)
+     write(*,*) ' MX_DEN_AT',iatom,intgden(2,iatom)
+     write(*,*) ' MY_DEN_AT',iatom,intgden(3,iatom)
+     write(*,*) ' MZ_DEN_AT',iatom,intgden(4,iatom)
+  end do
+     write(*,*) ' N_DEN_TOT',dentot(1)
+     write(*,*) ' MX_DEN_TOT',dentot(2)
+     write(*,*) ' MY_DEN_TOT',dentot(3)
+     write(*,*) ' MZ_DEN_TOT',dentot(4)
+
+  end if
 !  call dfpt_etot(dtset%berryopt,deltae,eberry,edocc,eeig0,eew,efrhar,efrkin,&
 !&     efrloc,efrnl,efrx1,efrx2,ehart1,ek0,ek1,eii,elast,eloc0,elpsp1,&
 !&     enl0,enl1,epaw1,etotal,evar,evdw,exc1,elmag1,ipert,dtset%natom,optene)
@@ -1198,21 +1208,23 @@ subroutine dfpt_scfcv(atindx,blkflg,cg,cgq,cg1,cg1_active,cplex,cprj,cprjq,cpus,
 !SPr deb
 !if (ipert<=dtset%natom.and.dtset%nspden>=2) then
 !
-!  mpi_comm_sphgrid=mpi_enreg%comm_fft
-!  call mean_fftr(rhor1(:,1),mean_rhor1,nfftf,nfftotf,1,mpi_comm_sphgrid)
-!  write(*,*) '   Mean 1st order density: ', mean_rhor1
-!  call mean_fftr(rhor1(:,2),mean_rhor1,nfftf,nfftotf,1,mpi_comm_sphgrid)
-!  if (dtset%nspden==2) then
-!    write(*,*) '        1st order m_z    : ', mean_rhor1
-!  else !nspden==4
-!    write(*,*) '        1st order m_x    : ', mean_rhor1
-!    call mean_fftr(rhor1(:,3),mean_rhor1,nfftf,nfftotf,1,mpi_comm_sphgrid)
-!    write(*,*) '        1st order m_y    : ', mean_rhor1
-!    call mean_fftr(rhor1(:,4),mean_rhor1,nfftf,nfftotf,1,mpi_comm_sphgrid)
-!    write(*,*) '        1st order m_z    : ', mean_rhor1
-!  endif
-! 
-!endif
+! CEDrev: Lets check this out, NEEDS MOR WORK TO RUN
+!!$if (useria==3) then
+!!$  mpi_comm_sphgrid=mpi_enreg%comm_fft
+!!$  call mean_fftr(rhor1(:,1),mean_rhor1,nfftf,nfftotf,1,mpi_comm_sphgrid)
+!!$  write(*,*) '   Mean 1st order density: ', mean_rhor1
+!!$  call mean_fftr(rhor1(:,2),mean_rhor1,nfftf,nfftotf,1,mpi_comm_sphgrid)
+!!$  if (dtset%nspden==2) then
+!!$    write(*,*) '        1st order m_z    : ', mean_rhor1
+!!$  else !nspden==4
+!!$    write(*,*) '        1st order m_x    : ', mean_rhor1
+!!$    call mean_fftr(rhor1(:,3),mean_rhor1,nfftf,nfftotf,1,mpi_comm_sphgrid)
+!!$    write(*,*) '        1st order m_y    : ', mean_rhor1
+!!$    call mean_fftr(rhor1(:,4),mean_rhor1,nfftf,nfftotf,1,mpi_comm_sphgrid)
+!!$    write(*,*) '        1st order m_z    : ', mean_rhor1
+!!$  endif
+!!$! 
+!!$endif
 
 
 !Eventually close the dot file, before calling dfpt_nstdy
