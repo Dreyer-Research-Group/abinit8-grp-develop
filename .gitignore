@@ -11,9 +11,9 @@ __pycache__
 .ipynb_checkpoints
 *.egg
 *.egg-info
-Makefile.am
-Makefile.in
-Makefile
+#Makefile.am
+#Makefile.in
+#Makefile
 TAGS
 abinit.dep
 abinit.dir
@@ -135,14 +135,14 @@ mkdocs_plugins/dist
 /doc/configure
 /doc/config.log
 /doc/config.status
-/doc/build/build-howto.html
-/doc/build/build-system-guide.pdf
-/doc/build/config-examples
-/doc/build/connectors.pdf
-/doc/config/gnu/config.guess
-/doc/config/gnu/config.sub
-/doc/config/gnu/install-sh
-/doc/config/gnu/missing
+#/doc/build/build-howto.html
+#/doc/build/build-system-guide.pdf
+#/doc/build/config-examples
+#/doc/build/connectors.pdf
+#/doc/config/gnu/config.guess
+#/doc/config/gnu/config.sub
+#/doc/config/gnu/install-sh
+#/doc/config/gnu/missing
 /doc/macroave/macroave.pdf
 /doc/macroave/macroave.ps
 /doc/macroave/macroave.toc
@@ -316,7 +316,7 @@ tests/testbot_summary.shelve
 !.gitkeep
 src/*/*dSYM/
 src/*/*log
-src/*/test_*
+#src/*/test_*
 !tests_*F90
 abichecks/special.py
 abienv.txt
@@ -333,5 +333,3 @@ doxygen_docs
 doxygen.err
 
 ./build/
-./build_rome/
-./bin/
