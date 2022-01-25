@@ -943,7 +943,7 @@ subroutine dfpt_scfcv(atindx,blkflg,cg,cgq,cg1,cg1_active,cplex,cprj,cprjq,cpus,
 
 !  SPr: don't remove the following comments for debugging
 ! CEDrev: Write this out at every step to check convergence
-if (dtset%useria==3) then
+if (dtset%useria>0) then
 do iatom= 1,dtset%natom
   call calcdensph(gmet,mpi_enreg,dtset%natom,nfftf,ngfftf,nspden,&
 &   dtset%ntypat,ab_out,dtset%ratsph,rhor1,rprimd,dtset%typat,ucvol,xred,&

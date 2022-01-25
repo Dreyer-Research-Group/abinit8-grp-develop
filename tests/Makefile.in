@@ -97,8 +97,8 @@ DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
 	$(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
 	$(nobase_dist_pkgdata_DATA) COPYING config/gnu/config.guess \
-	config/gnu/config.sub config/gnu/install-sh config/gnu/missing \
-	$(top_srcdir)/config/gnu/config.guess \
+	config/gnu/config.sub config/gnu/depcomp config/gnu/install-sh \
+	config/gnu/missing $(top_srcdir)/config/gnu/config.guess \
 	$(top_srcdir)/config/gnu/config.sub \
 	$(top_srcdir)/config/gnu/install-sh \
 	$(top_srcdir)/config/gnu/missing
