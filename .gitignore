@@ -11,9 +11,9 @@ __pycache__
 .ipynb_checkpoints
 *.egg
 *.egg-info
-#Makefile.am
-#Makefile.in
-#Makefile
+Makefile.am
+Makefile.in
+Makefile
 TAGS
 abinit.dep
 abinit.dir
@@ -333,3 +333,4 @@ doxygen_docs
 doxygen.err
 
 ./build/
+./build_rome/
