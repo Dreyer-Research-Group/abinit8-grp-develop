@@ -941,24 +941,25 @@ subroutine dfpt_scfcv(atindx,blkflg,cg,cgq,cg1,cg1_active,cplex,cprj,cprjq,cpus,
      end if
    end if
 
-!  SPr: don't remove the following comments for debugging
-! CEDrev: Write this out at every step to check convergence
-if (dtset%useria>0) then
-do iatom= 1,dtset%natom
-  call calcdensph(gmet,mpi_enreg,dtset%natom,nfftf,ngfftf,nspden,&
-&   dtset%ntypat,ab_out,dtset%ratsph,rhor1,rprimd,dtset%typat,ucvol,xred,&
-&   idir+1,cplex,intgden=intgden,dentot=dentot)
-     write(*,*) ' N_DEN_AT',iatom,intgden(1,iatom)
-     write(*,*) ' MX_DEN_AT',iatom,intgden(2,iatom)
-     write(*,*) ' MY_DEN_AT',iatom,intgden(3,iatom)
-     write(*,*) ' MZ_DEN_AT',iatom,intgden(4,iatom)
-  end do
-     write(*,*) ' N_DEN_TOT',dentot(1)
-     write(*,*) ' MX_DEN_TOT',dentot(2)
-     write(*,*) ' MY_DEN_TOT',dentot(3)
-     write(*,*) ' MZ_DEN_TOT',dentot(4)
+   !  SPr: don't remove the following comments for debugging
+   ! CEDrev: Write this out at every step to check convergence
+   if (dtset%useria>0 .and. me==0) then
+      call calcdensph(gmet,mpi_enreg,dtset%natom,nfftf,ngfftf,nspden,&
+           &   dtset%ntypat,ab_out,dtset%ratsph,rhor1,rprimd,dtset%typat,ucvol,xred,&
+           &   idir+1,cplex,intgden=intgden,dentot=dentot)
+      write(*,'(5a8)') '   ','pert','dir','atom','FO den'
+      do iatom= 1,dtset%natom
+         write(*,'(a13,3i5,e20.10)') 'N_DEN_AT',ipert,idir,iatom,intgden(1,iatom)
+         write(*,'(a13,3i5,e20.10)') 'MX_DEN_AT',ipert,idir,iatom,intgden(2,iatom)
+         write(*,'(a13,3i5,e20.10)') 'MY_DEN_AT',ipert,idir,iatom,intgden(3,iatom)
+         write(*,'(a13,3i5,e20.10)') 'MZ_DEN_AT',ipert,idir,iatom,intgden(4,iatom)
+      end do
+      write(*,'(a13,2i5,e20.10)') 'N_DEN_TOT',ipert,idir,dentot(1)
+      write(*,'(a13,2i5,e20.10)') 'MX_DEN_TOT',ipert,idir,dentot(2)
+      write(*,'(a13,2i5,e20.10)') 'MY_DEN_TOT',ipert,idir,dentot(3)
+      write(*,'(a13,2i5,e20.10)') 'MZ_DEN_TOT',ipert,idir,dentot(4)
 
-  end if
+   end if
 !  call dfpt_etot(dtset%berryopt,deltae,eberry,edocc,eeig0,eew,efrhar,efrkin,&
 !&     efrloc,efrnl,efrx1,efrx2,ehart1,ek0,ek1,eii,elast,eloc0,elpsp1,&
 !&     enl0,enl1,epaw1,etotal,evar,evdw,exc1,elmag1,ipert,dtset%natom,optene)
@@ -1225,6 +1226,24 @@ do iatom= 1,dtset%natom
 !!$  endif
 !!$! 
 !!$endif
+   if (dtset%useria>0 .and. me==0) then
+      call calcdensph(gmet,mpi_enreg,dtset%natom,nfftf,ngfftf,nspden,&
+           &   dtset%ntypat,ab_out,dtset%ratsph,rhor1,rprimd,dtset%typat,ucvol,xred,&
+           &   idir+1,cplex,intgden=intgden,dentot=dentot)
+      write(*,'(5a8)') '   ','pert','dir','atom','FO den'
+      do iatom= 1,dtset%natom
+         write(*,'(a23,3i5,e20.10)') 'FINAL_N_DEN_AT',ipert,idir,iatom,intgden(1,iatom)
+         write(*,'(a23,3i5,e20.10)') 'FINAL_MX_DEN_AT',ipert,idir,iatom,intgden(2,iatom)
+         write(*,'(a23,3i5,e20.10)') 'FINAL_MY_DEN_AT',ipert,idir,iatom,intgden(3,iatom)
+         write(*,'(a23,3i5,e20.10)') 'FINAL_MZ_DEN_AT',ipert,idir,iatom,intgden(4,iatom)
+      end do
+      write(*,'(a23,2i5,e20.10)') 'FINAL_N_DEN_TOT',ipert,idir,dentot(1)
+      write(*,'(a23,2i5,e20.10)') 'FINAL_MX_DEN_TOT',ipert,idir,dentot(2)
+      write(*,'(a23,2i5,e20.10)') 'FINAL_MY_DEN_TOT',ipert,idir,dentot(3)
+      write(*,'(a23,2i5,e20.10)') 'FINAL_MZ_DEN_TOT',ipert,idir,dentot(4)
+
+   end if
+
 
 
 !Eventually close the dot file, before calling dfpt_nstdy
